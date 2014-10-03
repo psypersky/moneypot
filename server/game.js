@@ -624,17 +624,27 @@ function genGameCrash() {
 
     // calculate game crash in %
     //   e.g. 150 = 1.50x crash
+    
+    //One of 100 games crash, this is used to pay for bonuses.
     var ic = cryptoRand.randInt(0, 99);
     if (ic === 0)
         return 0; // instant crash;
 
+    //A random value from 0 to 0.99999  48bits floating point
     var r = cryptoRand.rand();
+    
+    //Generate an exponential curve to a random number
     var perfect = (1 / (1 - r));
 
+    //Generate the qty we are going to substract from the curcve
     var houseEdge = (perfect-1) * 0.01;
 
+    //This is the final curve we send to this game
     var multiplier = perfect - houseEdge;
 
+    //http://fooplot.com/?lang=es#W3sidHlwZSI6MCwiZXEiOiIoMS8oMS14KSkiLCJjb2xvciI6IiMwMDAwMDAifSx7InR5cGUiOjAsImVxIjoiKDEvKDEteCkpLSgoKDEvKDEteCkpLTEpKjAuMDEpIiwiY29sb3IiOiIjMDAwMDAwIn0seyJ0eXBlIjoxMDAwLCJ3aW5kb3ciOlsiMCIsIjEiLCIwIiwiMzAiXX1d
+
+    //Convert the game ultiplier. e.g. from 1.50x to 150
     return Math.floor(multiplier * 100);
 }
 
